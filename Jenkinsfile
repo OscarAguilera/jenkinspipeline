@@ -29,8 +29,8 @@ pipeline {
 
         stage ('Deploy'){
             when {
-                branch == 'prod'
-                }
+                branch 'prod'
+            }
             steps {
                 echo "Stage Deploy"
             }
