@@ -44,7 +44,6 @@ pipeline {
                     echo "Nothing to do here"
                 }
             }
-            }
         }
     }
 }
