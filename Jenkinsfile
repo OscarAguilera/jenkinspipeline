@@ -9,5 +9,28 @@ pipeline {
                 echo "Hello ${params.PERSON}"
             }
         }
+        stage('Sonarqube') {
+            steps {
+                echo "Stage SonarQube"
+            }
+        }
+
+        stage('Build'){
+            steps {
+                echo "Stage Build"
+            }
+        }
+
+        stage('Liquibase'){
+            steps {
+                echo "Stage LiquiBase"
+            }
+        }
+
+        stage ('Deploy'){
+            steps {
+                echo "Stage Deploy"
+            }
+        }
     }
 }
