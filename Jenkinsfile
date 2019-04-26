@@ -1,13 +1,11 @@
 pipeline {
+    agent { label 'slave' }
     parameters {
+        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?'),
         choice(
             choices: ['deploy' , 'skip'],
             description: '',
             name: 'REQUESTED_ACTION')
-    }
-    agent { label 'slave' }
-    parameters {
-        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
     }
     stages {
         stage('Example') {
