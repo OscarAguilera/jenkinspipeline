@@ -35,14 +35,10 @@ pipeline {
                 expression { params.REQUESTED_ACTION == 'deploy' && env.BRANCH_NAME == 'prod'}
             }
             if (Prod_Deploy == 'true'){
-                steps{
                     echo "Deployong for production"
-                }
             }
             else {
-                steps{
                     echo "Nothing to do here"
-                }
             }
         }
     }
