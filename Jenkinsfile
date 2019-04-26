@@ -31,7 +31,7 @@ pipeline {
         stage ('Deploy'){
             when {
                 //branch 'prod'
-                expression { params.REQUESTED_ACTION == 'deploy' }
+                expression { params.REQUESTED_ACTION == 'deploy' && branch 'prod'}
             }
             steps {
                 echo "Stage Deploy"
