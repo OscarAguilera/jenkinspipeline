@@ -30,24 +30,20 @@ pipeline {
         }
 
         stage ('Deploy'){
-            //when {
-                //branch 'prod'
-              //  expression { params.REQUESTED_ACTION == 'deploy' && env.BRANCH_NAME == 'prod' && params.Prod_Deploy == 'true'}
-            //}
-            if (params.REQUESTED_ACTION == 'deploy' && env.BRANCH_NAME == 'prod' && params.Prod_Deploy == 'true'){
-                steps {
-                echo "Stage Deploy"
+            when {
+                branch 'prod'
+                expression { params.REQUESTED_ACTION == 'deploy' && env.BRANCH_NAME == 'prod'}
             }
-            }
-            else if (params.REQUESTED_ACTION == 'deploy' && env.BRANCH_NAME != 'prod' && params.Prod_Deploy == 'true'){
-                 steps {
-                echo "Stage Deploy"
-            }
+            if (Prod_Deploy == 'true'){
+                steps{
+                    echo "Deployong for production"
+                }
             }
             else {
                 steps{
-                    echo "Skipping Deployment"
+                    echo "Nothing to do here"
                 }
+            }
             }
         }
     }
