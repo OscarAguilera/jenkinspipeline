@@ -2,6 +2,8 @@ pipeline {
     agent { label 'slave' }
     parameters {
         string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+        choice(choices: ['deploy' , 'skip'], description: 'Description nothing else', name: 'REQUESTED_ACTION')
+        booleanParam(name: 'Prod_Deploy', defaultValue: true, description: '')
     }
     stages {
         stage('Example') {
@@ -28,6 +30,10 @@ pipeline {
         }
 
         stage ('Deploy'){
+            when {
+                //branch 'prod'
+                expression { params.REQUESTED_ACTION == 'deploy' && env.BRANCH_NAME == 'prod'}
+            }
             steps {
                 echo "Stage Deploy"
             }
