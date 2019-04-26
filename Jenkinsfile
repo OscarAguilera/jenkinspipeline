@@ -1,4 +1,10 @@
 pipeline {
+    parameters {
+        choice(
+            choices: ['deploy' , 'skip'],
+            description: '',
+            name: 'REQUESTED_ACTION')
+    }
     agent { label 'slave' }
     parameters {
         string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
@@ -29,7 +35,8 @@ pipeline {
 
         stage ('Deploy'){
             when {
-                branch 'prod'
+                //branch 'prod'
+                expression { params.REQUESTED_ACTION == 'greeting' }
             }
             steps {
                 echo "Stage Deploy"
