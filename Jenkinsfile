@@ -32,13 +32,10 @@ pipeline {
         stage ('Deploy'){
             when {
                 branch 'prod'
-                expression { params.REQUESTED_ACTION == 'deploy' && env.BRANCH_NAME == 'prod'}
+                expression { params.REQUESTED_ACTION == 'deploy' && env.BRANCH_NAME == 'prod' && params.Prod_Deploy == 'true'}
             }
-            if (Prod_Deploy == 'true'){
-                    echo "Deployong for production"
-            }
-            else {
-                    echo "Nothing to do here"
+             steps {
+                echo "Stage LiquiBase"
             }
         }
     }
