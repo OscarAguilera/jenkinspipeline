@@ -28,7 +28,7 @@ pipeline {
         }
 
         stage ('Deploy'){
-            when {env.BRABCH_NAME == 'prod'}
+            when {branch == 'prod'}
             steps {
                 echo "Stage Deploy"
             }
