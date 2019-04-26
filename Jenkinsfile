@@ -1,64 +1,12 @@
 pipeline {
-    agent { label 'slave' }
+    agent {label slave}
     parameters {
-        string (
-            defaultValue: '*',
-            description: '',
-            name : 'BRANCH_PATTERN')
-        booleanParam (
-            defaultValue: true,
-            description: '',
-            name : 'FORCE_FULL_BUILD')
+        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
     }
-
     stages {
-        stage ('Prepare') {
+        stage('Example') {
             steps {
-                checkout([$class: 'GitSCM',
-                    branches: [[name: "origin/${BRANCH_PATTERN}"]],
-                    doGenerateSubmoduleConfigurations: false,
-                    extensions: [[$class: 'LocalBranch']],
-                    submoduleCfg: [],
-                    userRemoteConfigs: [[
-                        credentialsId: 'bitwiseman_github',
-                        url: 'https://github.com/bitwiseman/hermann']]])
-            }
-        }
-
-        stage ('Build') {
-            when {
-                expression {
-                    GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                    return GIT_BRANCH == 'origin/master' || params.FORCE_FULL_BUILD
-                }
-            }
-            steps {
-                // Freestyle build trigger calls a list of jobs
-                // Pipeline build() step only calls one job
-                // To run all three jobs in parallel, we use "parallel" step
-                // https://jenkins.io/doc/pipeline/examples/#jobs-in-parallel
-                parallel (
-                    linux: {
-                        build job: 'full-build-linux', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)]
-                    },
-                    mac: {
-                        build job: 'full-build-mac', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)]
-                    },
-                    windows: {
-                        build job: 'full-build-windows', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)]
-                    },
-                    failFast: false)
-            }
-        }
-        stage ('Build Skipped') {
-            when {
-                expression {
-                    GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                    return !(GIT_BRANCH == 'origin/master' || params.FORCE_FULL_BUILD)
-                }
-            }
-            steps {
-                echo 'Skipped full build.'
+                echo "Hello ${params.PERSON}"
             }
         }
     }
